@@ -1,0 +1,188 @@
+import java.util.*;
+
+/*
+import java.util.Scanner;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+*/
+
+
+public class UniversitySystem {
+    static Scanner input = new Scanner(System.in);
+    
+
+    static HashMap<String, String> users = new HashMap<>();
+    static HashMap<String, Integer> grades = new HashMap<>();
+    static ArrayList<String> schedule = new ArrayList<>();
+    static ArrayList<String> announcements = new ArrayList<>();
+
+    public static void main(String[] args) {
+
+        
+        users.put("student", "1234");
+        users.put("prof", "5678");
+
+
+
+        while (true) {
+            String role = login();
+
+            if (role.equals("student")) {
+                studentMenu();
+            } else {
+                professorMenu();
+            }
+        }
+    }
+
+    public static String login() {
+        while (true) {
+            System.out.print("\nEnter username: ");
+            String username = input.nextLine();
+
+            System.out.print("Enter password: ");
+            String password = input.nextLine();
+
+            if (users.containsKey(username) && users.get(username).equals(password)) {
+                System.out.println("Login successful");
+
+                if (username.equals("prof")) {
+                    return "professor";
+                } else {
+                    return "student";
+                }
+            } else {
+                System.out.println("Wrong username or password!");
+            }
+        }
+    }
+
+    // STUDENT MENU
+    public static void studentMenu() {
+        int choice;
+        do {
+            System.out.println("\n--- Student Menu ---");
+            System.out.println("1. View Schedule");
+            System.out.println("2. View Grades");
+            System.out.println("3. View Announcements");
+            System.out.println("4. Logout");
+
+            try {
+                System.out.print("Enter choice: ");
+                choice = input.nextInt();
+                input.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        viewSchedule();
+                        break;
+                    case 2:
+                        viewGrades();
+                        break;
+                    case 3:
+                        viewAnnouncements();
+                        break;
+                    case 4:
+                        System.out.println("Logging out...");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input!");
+                input.nextLine();
+                choice = 0;
+            }
+
+        } while (choice != 4);
+    }
+
+    // PROFESSOR MENU
+    public static void professorMenu() {
+        int choice;
+        do {
+            System.out.println("\n--- Professor Menu ---");
+            System.out.println("1. Enter Scores");
+            System.out.println("2. Change Schedule");
+            System.out.println("3. Add Announcement");
+            System.out.println("4. Logout");
+
+            try {
+                System.out.print("Enter choice: ");
+                choice = input.nextInt();
+                input.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        enterScores();
+                        break;
+                    case 2:
+                        changeSchedule();
+                        break;
+                    case 3:
+                        addAnnouncement();
+                        break;
+                    case 4:
+                        System.out.println("Logging out...");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input!");
+                input.nextLine();
+                choice = 0;
+            }
+
+        } while (choice != 4);
+    }
+
+    // STUDENT METHODS
+    public static void viewSchedule() {
+        System.out.println("Schedule:");
+        for (String s : schedule) {
+            System.out.println("- " + s);
+        }
+    }
+
+    public static void viewGrades() {
+        System.out.println("Grades:");
+        for (Map.Entry<String, Integer> entry : grades.entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }
+    }
+
+    public static void viewAnnouncements() {
+        System.out.println("Announcements:");
+        for (String a : announcements) {
+            System.out.println("- " + a);
+        }
+    }
+
+    // PROFESSOR METHODS
+    public static void enterScores() {
+        System.out.print("Enter subject: ");
+        String subject = input.nextLine();
+
+        System.out.print("Enter new score: ");
+        int score = input.nextInt();
+        input.nextLine();
+
+        grades.put(subject, score);
+        System.out.println("Score updated!");
+    }
+
+    public static void changeSchedule() {
+        System.out.print("Enter new subject: ");
+        String subject = input.nextLine();
+
+        schedule.add(subject);
+        System.out.println("Schedule updated!");
+    }
+
+    public static void addAnnouncement() {
+        System.out.print("Enter announcement: ");
+        String ann = input.nextLine();
+
+        announcements.add(ann);
+        System.out.println("Announcement added!");
+    }
+}
